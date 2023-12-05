@@ -1,11 +1,6 @@
 const { createGlobalStyle } = require('styled-components')
 
 const GlobalStyle = createGlobalStyle`
-    /* http://meyerweb.com/eric/tools/css/reset/ 
-   v2.0 | 20110126
-   License: none (public domain)
-*/
-
 html,
 body,
 div,
@@ -91,7 +86,6 @@ video {
   padding: 0;
   border: 0;
   font-size: 100%;
-  font: inherit;
   vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
@@ -131,35 +125,22 @@ table {
   border-spacing: 0;
 }
 
-:root {
-  --mainOrange: #FC913A;
-  --mainYellow: #EAE374;
-  --basicColor: #FFE7CF;
-}
-
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
 * {
+  padding: 0;
+  margin: 0;
   box-sizing: border-box;
 }
-
-a {
-    text-decoration: none;
-    color: black;
+ul {
+  padding-left: 0;
 }
-
-button{
-        cursor: pointer;
-        border: none;
-} 
-
+a,button {
+  all: unset;
+  cursor: pointer;
+}
+img {
+  width: 100%;
+  vertical-align: top;
+}
 `
 
 export default GlobalStyle
