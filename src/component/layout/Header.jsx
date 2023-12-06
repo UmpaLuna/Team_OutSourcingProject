@@ -7,7 +7,10 @@ function Header() {
     <St.Header>
       <St.Logo>
         <Link to="/">
-          <St.LogoImg src="/asset/img/logo.png" alt="로고" />
+          <St.LogoImg
+            src={process.env.PUBLIC_URL + '/asset/img/layout/logo.png'}
+            alt="로고"
+          />
         </Link>
       </St.Logo>
       <St.ButtonContainer>
