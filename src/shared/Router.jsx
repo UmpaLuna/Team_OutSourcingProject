@@ -27,7 +27,6 @@ function Router() {
           <Route path="/detail/:id" element={<Detail />} />
           <Route path="/login" element={<Login />} />
           <Route path="/profile" element={<Profile />} />
-          {/* 효창님이 멋지게 처리할거라 신지떼이루요 */}
           <Route path="/survey" element={<Survey />} />
         </Route>
 

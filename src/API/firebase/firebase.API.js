@@ -1,6 +1,5 @@
 import { initializeApp } from 'firebase/app'
-import { createUserWithEmailAndPassword, getAuth } from '@firebase/auth'
-import store from '../../redux/config/configStore'
+import { getAuth } from '@firebase/auth'
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FB_API_KEY,
   authDomain: process.env.REACT_APP_FB_AUTH_DOMAIN,
