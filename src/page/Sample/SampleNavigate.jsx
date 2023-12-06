@@ -10,6 +10,7 @@ function SampleNavigate() {
         <Link to="home">SampleHome</Link>
         <Link to="detail/:id">SampleDetail</Link>
         <Link to="profile">SampleProfile</Link>
+        <Link to="kakaoMap">SampleKaKaoMap</Link>
       </StSample>
       <Outlet />
     </>

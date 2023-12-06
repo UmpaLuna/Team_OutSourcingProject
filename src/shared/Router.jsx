@@ -11,6 +11,7 @@ import SampleHome from '../page/Sample/SampleHome'
 import SampleLogin from '../page/Sample/SampleLogin'
 import SampleDetail from '../page/Sample/SampleDetail'
 import SampleProfile from '../page/Sample/SampleProfile'
+import SampleKakao from '../page/Sample/SampleKakao'
 
 // Page는 일단 6개이다.
 // Layout, Home, Detail,Login, Survey, Profile
@@ -36,6 +37,7 @@ function Router() {
           <Route path="login" element={<SampleLogin />} />
           <Route path="profile" element={<SampleProfile />} />
           <Route path="detail/:id" element={<SampleDetail />} />
+          <Route path="kakaoMap" element={<SampleKakao />} />
         </Route>
       </Routes>
     </BrowserRouter>

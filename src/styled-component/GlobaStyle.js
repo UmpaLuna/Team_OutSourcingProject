@@ -125,6 +125,17 @@ table {
   border-spacing: 0;
 }
 
+body {
+  margin: 0;
+  font-family: 'Noto Sans KR', sans-serif; /* 한글 폰트 설정 */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: 'Montserrat', sans-serif;
+}
+
 * {
   padding: 0;
   margin: 0;
