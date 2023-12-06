@@ -9,14 +9,15 @@ import {
 } from '@firebase/auth'
 import { auth } from '../../API/firebase/firebase.API'
 import {
-  userCurrentState,
-  userSignIn,
-  userSignOut,
-} from '../../redux/modules/userSlice'
+  sampleUserCurrentState,
+  sampleUserSignIn,
+  sampleUserSignOut,
+} from '../../redux/modules/sample/sampleUserSlice'
 
 function SampleLogin() {
   const [changeLogin, setChangeLogin] = useState('')
   const user = useSelector((state) => state.user)
+  console.log(user)
   const dispatch = useDispatch()
   // 로그아웃 함수입니다.
   const onClickUserSignOut = async () => {
@@ -24,7 +25,7 @@ function SampleLogin() {
     await signOut(auth)
     // user라는 전역state 초기화 해주기입니다.
 
-    dispatch(userSignOut())
+    dispatch(sampleUserSignOut())
   }
   return (
     <>
@@ -133,7 +134,7 @@ const SignIn = () => {
       )
       // state 변경이 있어야 아래의 useEffect안에 onAuthStateChanged를 사용하여
       // user의 정보를 넣어주어 state변경하려고요!!
-      dispatch(userCurrentState(true))
+      dispatch(sampleUserCurrentState(true))
       console.log(validUser)
     } catch (error) {
       console.log(error)
@@ -150,7 +151,7 @@ const SignIn = () => {
           photoURL: credential.photoURL,
         }
 
-        dispatch(userSignIn(validatedUserInfo))
+        dispatch(sampleUserSignIn(validatedUserInfo))
       }
     })
   }, [user, dispatch])

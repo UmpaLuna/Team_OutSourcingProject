@@ -12,27 +12,25 @@ const initialState = {
   photoURL: null,
 }
 
-const user = createSlice({
+const sampleUser = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    userSignIn(state, { payload }) {
+    sampleUserSignIn(state, { payload }) {
       state.uid = payload.uid
       state.email = payload.email
-      state.photoURL =
-        payload.photoURL ||
-        process.env.PUBLIC_URL + '/img/defaultProfileImg/avatar.jpg'
-      // displayName값이 없으면 email로 대체 합니다.
-      state.displayName = payload.displayName || payload.email
+      state.photoURL = payload.photoURL
+      state.displayName = payload.displayName
     },
-    userSignOut(state) {
+    sampleUserSignOut(state) {
       console.log(initialState)
       return initialState
     },
-    userCurrentState(state, { payload }) {
+    sampleUserCurrentState(state, { payload }) {
       state.currentUser = payload
     },
   },
 })
-export const { userSignIn, userSignOut, userCurrentState } = user.actions
-export default user.reducer
+export const { sampleUserSignIn, sampleUserSignOut, sampleUserCurrentState } =
+  sampleUser.actions
+export default sampleUser.reducer
