@@ -20,7 +20,7 @@ function Header() {
         <Link to="/signup">
           <St.Button>회원가입</St.Button>
         </Link>
-        <Link to="/mypage">
+        <Link to="/profile">
           <St.Button>마이페이지</St.Button>
         </Link>
       </St.ButtonContainer>
