@@ -13,10 +13,11 @@ const StSample = styled.div`
   display: grid;
   place-content: center center;
   font-size: 40px;
-  ${(theme) => theme.theme.mediaQuery.md`
+
+  ${({ theme }) => theme.mediaQuery.md`
         background-color: red;
       `}
-  ${(theme) => theme.theme.mediaQuery.lg`
+  ${({ theme }) => theme.mediaQuery.lg`
         background-color: pink;
       `};
 `
