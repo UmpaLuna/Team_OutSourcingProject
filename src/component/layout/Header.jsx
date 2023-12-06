@@ -7,7 +7,7 @@ function Header() {
     <St.Header>
       <St.Logo>
         <Link to="/">
-          <St.LogoImg src="/assets/images/logo.png" alt="로고" />
+          <St.LogoImg src="/asset/img/logo.png" alt="로고" />
         </Link>
       </St.Logo>
       <St.ButtonContainer>
