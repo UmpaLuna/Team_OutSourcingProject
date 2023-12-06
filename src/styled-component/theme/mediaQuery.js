@@ -8,7 +8,7 @@ const breakPoints = {
 
 const mediaQuery = Object.entries(breakPoints).reduce((acc, [key, value]) => {
   acc[key] = (...arg) => css`
-    @media (min-width: ${value}px) {
+    @media (max-width: ${value}px) {
       ${css(...arg)}// ...arg로 해도 되는데 왜그런걸까??
     }
   `

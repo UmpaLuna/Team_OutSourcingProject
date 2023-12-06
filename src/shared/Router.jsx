@@ -5,8 +5,12 @@ import Detail from '../page/Detail'
 import Layout from '../page/Layout'
 import Login from '../page/Login'
 import Survey from '../page/Survey'
-import Sample from '../page/Sample/Sample'
+import SampleNavigate from '../page/Sample/SampleNavigate'
 import Profile from '../page/Profile'
+import SampleHome from '../page/Sample/SampleHome'
+import SampleLogin from '../page/Sample/SampleLogin'
+import SampleDetail from '../page/Sample/SampleDetail'
+import SampleProfile from '../page/Sample/SampleProfile'
 
 // Page는 일단 6개이다.
 // Layout, Home, Detail,Login, Survey, Profile
@@ -18,8 +22,8 @@ function Router() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route element={<Layout />}>
-          <Route path="/" element={<Home />} />
+        <Route path="/" element={<Layout />}>
+          <Route path="/home" element={<Home />} />
           <Route path="/detail/:id" element={<Detail />} />
           <Route path="/login" element={<Login />} />
           <Route path="/profile" element={<Profile />} />
@@ -28,7 +32,12 @@ function Router() {
         </Route>
 
         {/* Sample 주소 */}
-        <Route path="/sample" element={<Sample />} />
+        <Route path="/sample" element={<SampleNavigate />}>
+          <Route path="Home" element={<SampleHome />} />
+          <Route path="login" element={<SampleLogin />} />
+          <Route path="profile" element={<SampleProfile />} />
+          <Route path="detail/:id" element={<SampleDetail />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   )

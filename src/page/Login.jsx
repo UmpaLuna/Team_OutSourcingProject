@@ -1,18 +1,18 @@
-import React, { useState } from "react";
-import { auth } from "./firebase";
+import React, { useState } from 'react'
+// import { auth } from '../API/firebase/firebase.API'
 
-const login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+const Login = () => {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
   const handleLogin = async () => {
     try {
-      await auth.signInWithEmailAndPassword(email, password);
-      console.log("로그인 성공");
+      // await auth.signInWithEmailAndPassword(email, password)
+      console.log('로그인 성공')
     } catch (error) {
-      console.error("로그인 실패", error.message);
+      console.error('로그인 실패', error.message)
     }
-  };
+  }
 
   return (
     <div>
@@ -31,7 +31,7 @@ const login = () => {
       />
       <button onClick={handleLogin}>로그인</button>
     </div>
-  );
-};
+  )
+}
 
-export default login;
+export default Login
