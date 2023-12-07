@@ -1,30 +1,55 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 function SampleKakao() {
   const kakaoMapRef = useRef()
-  const { kakao } = window
+  const [map, setMap] = useState(null)
+  const [coords, setCoords] = useState({
+    lat: 37.566498652285,
+    lng: 126.99209745028,
+  })
+
+  // 사용자 위치정보 허용했을 경우 해당 위도/경도 설정 - Geolocation은 navigator.geolocation을 통해 접근하고, 사용자가 허가할 경우 현재 장치에서 GPS, Wifi 등 사용 가능한 최선의 방법으로 위치를 알아낸다.
+  // position은 navigator.geolocation.getCurrentPosition을 실행 시킬때 숨겨져있는 argu
+  const getUserCurrentLocation = (pos) =>
+    setCoords((prev) => ({
+      ...prev,
+      lat: pos.coords.latitude,
+      lng: pos.coords.longitude,
+    }))
+
+  // 사용자가 허락 안해주면 기본 설정 좌표
+  const failedUserCurrentLocation = () => console.log('안타깝군요')
+  // 자동 함수 실행시켜주자 useEffect안에서 - 그런데 머부터 실행이 될까?>
   useEffect(() => {
-    // script를 생성해줍니다.
+    console.log(1)
+    navigator.geolocation.getCurrentPosition(
+      getUserCurrentLocation,
+      failedUserCurrentLocation
+    )
+  }, [])
+
+  // 처음 kakaoMAp 생성되는 useEffect입니다.
+  useEffect(() => {
+    if (map) return
     const kakaoMapScript = document.createElement('script')
-    // 비동기와의 통신이기에 true로
     kakaoMapScript.async = true
-    // kakao에서 받은 JAVASCRIPT APIKey를 넣어주자
+
     kakaoMapScript.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_KAKAO_MAP_JAVASCRIPT_KEY}&autoload=false`
-    // HMTL의 head 부분에 붙여줍니다.
+
     document.head.appendChild(kakaoMapScript)
 
-    // 스크립트를 load 이벤트일때 kakao map을 생성해줍니다.
-    // center: { lat: 33.450701, lng: 126.570667 }, 객체로 그냥 넣어주면 안됩니다.;; 에러뜸
-
+    // 혹시혹시 했는데, window.kakao로 하니 에러가 안나타난다. window 지우고 해보면 에러 뜬다. 이유는 아마 내 생각에 window 전역객체에 들어있지 않아서 처음에 썼던 const {kakao} =  window 하고, new kakao.maps 이렇게 써서 undefined maps가 나온게 아닌가 싶다.
     kakaoMapScript.onload = () => {
-      kakao.maps.load(() => {
+      window.kakao.maps.load(() => {
+        console.log(3)
         const options = {
-          center: new kakao.maps.LatLng(33.450701, 126.570667), // 초기 중심 좌표 (위도, 경도)
-          level: 3, // 지도 확대 레벨
+          center: new window.kakao.maps.LatLng(coords.lat, coords.lng),
+          level: 3,
         }
-        new kakao.maps.Map(kakaoMapRef.current, options)
+        const map = new window.kakao.maps.Map(kakaoMapRef.current, options)
+        setMap(map)
       })
     }
-  }, [])
+  }, [map])
   return (
     <div ref={kakaoMapRef} style={{ width: '400px', height: '300px' }}></div>
   )
