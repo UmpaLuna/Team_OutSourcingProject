@@ -48,6 +48,12 @@ function SampleKakao() {
           // map은 45번라인 생성해준 map이고, 만들었으면 어디다가 보여줄건디;; 만들어준 map에다 보여줄거잖아 맞아?
           map: map,
         })
+        const infowindow = new window.kakao.maps.InfoWindow({
+          content: '처음입니다.',
+          position: new window.kakao.maps.LatLng(coords.lat, coords.lng),
+        })
+
+        infowindow.open(map, marker)
         setMap(map)
       })
     }
