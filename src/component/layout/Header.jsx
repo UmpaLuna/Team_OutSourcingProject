@@ -17,7 +17,7 @@ function Header() {
         <Link to="/login">
           <St.Button>로그인</St.Button>
         </Link>
-        <Link to="/signup">
+        <Link to="/register">
           <St.Button>회원가입</St.Button>
         </Link>
         <Link to="/profile">
