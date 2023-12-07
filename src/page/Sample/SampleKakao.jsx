@@ -36,16 +36,18 @@ function SampleKakao() {
     kakaoMapScript.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_KAKAO_MAP_JAVASCRIPT_KEY}&autoload=false`
 
     document.head.appendChild(kakaoMapScript)
-
-    // 혹시혹시 했는데, window.kakao로 하니 에러가 안나타난다. window 지우고 해보면 에러 뜬다. 이유는 아마 내 생각에 window 전역객체에 들어있지 않아서 처음에 썼던 const {kakao} =  window 하고, new kakao.maps 이렇게 써서 undefined maps가 나온게 아닌가 싶다.
     kakaoMapScript.onload = () => {
       window.kakao.maps.load(() => {
-        console.log(3)
         const options = {
           center: new window.kakao.maps.LatLng(coords.lat, coords.lng),
           level: 3,
         }
         const map = new window.kakao.maps.Map(kakaoMapRef.current, options)
+        const marker = new window.kakao.maps.Marker({
+          position: new window.kakao.maps.LatLng(coords.lat, coords.lng),
+          // map은 45번라인 생성해준 map이고, 만들었으면 어디다가 보여줄건디;; 만들어준 map에다 보여줄거잖아 맞아?
+          map: map,
+        })
         setMap(map)
       })
     }
