@@ -36,7 +36,11 @@ const sampleUser = createSlice({
     sampleUserCurrentState(state, { payload }) {
       state.currentUser = payload
     },
-    sampleUserUpdateProfile(state, { payload }) {},
+    sampleUserUpdateProfile(state, { payload }) {
+      state.photoURL = payload.photoURL
+      state.profilePhotoURLKey = payload.profilePhotoURLKey
+      state.intro = payload.intro
+    },
   },
 })
 export const {

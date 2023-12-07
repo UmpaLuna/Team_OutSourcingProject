@@ -28,13 +28,15 @@ export default SampleProfile
 
 const SampleUserProfile = ({ setModal }) => {
   const sampleUser = useSelector((state) => state.sampleUser)
+  console.log(sampleUser)
   return (
     <StDiv>
       <div>
         <img
           src={
+            sampleUser.photoURL ||
             process.env.PUBLIC_URL +
-            '/asset/img/sample/defaultProfileImg/avatar.jpg'
+              '/asset/img/sample/defaultProfileImg/avatar.jpg'
           }
           alt=""
         />
@@ -58,6 +60,7 @@ const SampleModal = ({ setModal }) => {
   const [uploadImage, setUploadImage] = useState()
   const [progress, setProgress] = useState()
   const dispatch = useDispatch()
+  const profilePhotoURLKey = uuidv4()
   // div를 누르면 input file이 클릭됩니다.
   const handleImageClick = () => {
     imgRef.current.click()
@@ -93,33 +96,42 @@ const SampleModal = ({ setModal }) => {
 
   // 프로필 사진 Storage에 올리기
   const uploadProfileImageonStorage = async () => {
+    if (!uploadImage) return
     try {
       // 나중에 삭제 할 때 사용 하려고 입니다.
-      const profilePhotoURLKey = uuidv4()
+
       // 그냥 메타데이터 입니다.
-      const metaData = {
-        contentType: uploadImage.type,
-      }
-      const storageRef = ref(
-        storage,
-        `profileImage/${sampleUser.email}/${profilePhotoURLKey}`
-      )
-      const UploadTask = uploadBytesResumable(storageRef, uploadImage, metaData)
-      UploadTask.on(
-        'state_changed',
-        (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-          setProgress(progress)
-        },
-        (error) => {
-          throw new Error(error)
-        },
-        () => {
-          const downLoadUrl = getDownloadURL(UploadTask.snapshot.ref)
-          return { downLoadUrl, profilePhotoURLKey }
+      const getPhotoURL = await new Promise((resolve, reject) => {
+        const metaData = {
+          contentType: uploadImage.type,
         }
-      )
+        //Storage에 할 경로를 잡아주는 것입니다.
+        const storageRef = ref(
+          storage,
+          `profileImage/${sampleUser.email}/${profilePhotoURLKey}`
+        )
+        const UploadTask = uploadBytesResumable(
+          storageRef,
+          uploadImage,
+          metaData
+        )
+        UploadTask.on(
+          'state_changed',
+          (snapshot) => {
+            const progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            setProgress(progress)
+          },
+          (error) => {
+            throw new Error(error)
+          },
+          async () => {
+            const downLoadUrl = await getDownloadURL(UploadTask.snapshot.ref)
+            resolve(downLoadUrl)
+          }
+        )
+      })
+      return getPhotoURL
     } catch (error) {
       throw new Error('프로필이미지 업로드 하다가', error)
     }
@@ -142,9 +154,10 @@ const SampleModal = ({ setModal }) => {
   const allInOneWithFirebaseAndUserRedux = async () => {
     try {
       await deletePreProfileImageOnStorage()
-      const { downLoadUrl, profilePhotoURLKey } =
-        await uploadProfileImageonStorage()
+      const downLoadUrl = await uploadProfileImageonStorage()
       await updateProfileOnFireBase(downLoadUrl)
+      console.log(inputRef.current.intro.value)
+      console.log(profilePhotoURLKey)
       dispatch(
         sampleUserUpdateProfile({
           photoURL: downLoadUrl,
@@ -152,6 +165,7 @@ const SampleModal = ({ setModal }) => {
           intro: inputRef.current.intro.value,
         })
       )
+      setModal(false)
     } catch (error) {
       console.log(error)
     }
@@ -166,7 +180,7 @@ const SampleModal = ({ setModal }) => {
       <div>
         {/* 이미지 */}
         <div onClick={handleImageClick}>
-          <img src={previewImg || defaultImg} alt="" />
+          <img src={previewImg || sampleUser.photoURL} alt="" />
 
           <input
             type="file"
