@@ -28,7 +28,7 @@ function Router() {
           <Route path="/home" element={<Home />} />
           <Route path="/detail/:id" element={<Detail />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/login" element={<Register />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/survey" element={<Survey />} />
         </Route>
