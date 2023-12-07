@@ -156,8 +156,6 @@ const SampleModal = ({ setModal }) => {
       await deletePreProfileImageOnStorage()
       const downLoadUrl = await uploadProfileImageonStorage()
       await updateProfileOnFireBase(downLoadUrl)
-      console.log(inputRef.current.intro.value)
-      console.log(profilePhotoURLKey)
       dispatch(
         sampleUserUpdateProfile({
           photoURL: downLoadUrl,

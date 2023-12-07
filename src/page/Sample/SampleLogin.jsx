@@ -85,6 +85,8 @@ const SignUp = ({ setChangeLogin }) => {
 
   // 회원가입함수
   const onClickCreateUserWithEmail = async (userInfo) => {
+    console.log(userInfo.email.value)
+    console.log(userInfo.password.value)
     try {
       const credentialUser = await createUserWithEmailAndPassword(
         auth,
@@ -142,7 +144,7 @@ const SignIn = () => {
   }
 
   useEffect(() => {
-    onAuthStateChanged(auth, (credential) => {
+    onAuthStateChanged(auth, async (credential) => {
       if (credential) {
         const validatedUserInfo = {
           uid: credential.uid,
@@ -150,7 +152,6 @@ const SignIn = () => {
           email: credential.email,
           photoURL: credential.photoURL,
         }
-
         dispatch(sampleUserSignIn(validatedUserInfo))
       }
     })
