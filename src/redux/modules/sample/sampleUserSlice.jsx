@@ -10,6 +10,10 @@ const initialState = {
   email: '',
   // user의 profile사진 입니다.
   photoURL: null,
+  // user의 profile에 들어갈 자기소개입니다.
+  intro: '',
+  // user의 profile 사진 수정 할 때 사용 할 주소 값입니다. 수정 할 때 기존의 이미지는 삭제 해야 하기 때문입니다.
+  profilePhotoURLKey: '',
 }
 
 const sampleUser = createSlice({
@@ -19,7 +23,10 @@ const sampleUser = createSlice({
     sampleUserSignIn(state, { payload }) {
       state.uid = payload.uid
       state.email = payload.email
-      state.photoURL = payload.photoURL
+      state.photoURL =
+        payload.photoURL ||
+        process.env.PUBLIC_URL +
+          '/asset/img/sample/defaultProfileImg/avatar.jpg'
       state.displayName = payload.displayName
     },
     sampleUserSignOut(state) {
@@ -29,8 +36,13 @@ const sampleUser = createSlice({
     sampleUserCurrentState(state, { payload }) {
       state.currentUser = payload
     },
+    sampleUserUpdateProfile(state, { payload }) {},
   },
 })
-export const { sampleUserSignIn, sampleUserSignOut, sampleUserCurrentState } =
-  sampleUser.actions
+export const {
+  sampleUserSignIn,
+  sampleUserSignOut,
+  sampleUserCurrentState,
+  sampleUserUpdateProfile,
+} = sampleUser.actions
 export default sampleUser.reducer

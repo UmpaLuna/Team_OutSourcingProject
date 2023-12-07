@@ -16,8 +16,8 @@ import {
 
 function SampleLogin() {
   const [changeLogin, setChangeLogin] = useState('')
-  const user = useSelector((state) => state.user)
-  console.log(user)
+  const sampleUser = useSelector((state) => state.sampleUser)
+  console.log(sampleUser)
   const dispatch = useDispatch()
   // 로그아웃 함수입니다.
   const onClickUserSignOut = async () => {
@@ -66,8 +66,8 @@ function SampleLogin() {
         </div>
         <DivConfirmUser>
           <p> 현재</p>
-          {user.email ? (
-            <div>{`${user.email} 접속중`} </div>
+          {sampleUser.email ? (
+            <div>{`${sampleUser.email} 접속중`} </div>
           ) : (
             <div>'없습니다.'</div>
           )}
@@ -123,9 +123,9 @@ const SignUp = ({ setChangeLogin }) => {
 const SignIn = () => {
   const signRef = useRef({})
   const dispatch = useDispatch()
-  const user = useSelector((state) => state.user)
+  const sampleUser = useSelector((state) => state.sampleUser)
   const onClickSignIn = async (userInfo) => {
-    if (user.currentUser) return alert('이미 로그인 되어있어요')
+    if (sampleUser.currentUser) return alert('이미 로그인 되어있어요')
     try {
       const validUser = await signInWithEmailAndPassword(
         auth,
@@ -154,7 +154,7 @@ const SignIn = () => {
         dispatch(sampleUserSignIn(validatedUserInfo))
       }
     })
-  }, [user, dispatch])
+  }, [sampleUser, dispatch])
   return (
     <form onSubmit={(e) => e.preventDefault()}>
       <div>로그인</div>
