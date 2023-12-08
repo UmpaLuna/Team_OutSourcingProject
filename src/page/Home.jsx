@@ -1,8 +1,8 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { userLogOut } from '../redux/modules/login/loginSlice'
-import { auth } from '../API/firebase/firebase.API'
 import { useNavigate } from 'react-router-dom'
+import { auth } from '../API/firebase/firebase.API'
+import { userLogOut } from '../redux/modules/login/loginSlice'
 
 function Home() {
   const dispatch = useDispatch()
@@ -12,6 +12,7 @@ function Home() {
     try {
       // Firebase에서 로그아웃
       // 왜 signOut(auth)는 안되나요???
+
       await auth.signOut()
 
       // Redux 스토어에서 로그아웃 액션을 디스패치하여 사용자 상태 초기화
