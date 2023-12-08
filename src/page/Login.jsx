@@ -46,6 +46,7 @@ const Login = () => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
+      console.log(user)
       if (user) {
         // 로그인한 사용자 정보를 Redux 스토어에 저장
         dispatch(
@@ -56,7 +57,7 @@ const Login = () => {
             photoURL: user.photoURL,
           })
         )
-        console.log('찍히냐')
+
         navigate('/') // 로그인한 상태라면 홈 페이지로 이동
         console.log(user)
       }
@@ -64,6 +65,7 @@ const Login = () => {
 
     // Clean-up 함수 등록
     return () => {
+      console.log('???')
       unsubscribe()
     }
   }, [dispatch, navigate])
