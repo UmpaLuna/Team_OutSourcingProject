@@ -4,28 +4,13 @@ import styled from 'styled-components'
 function SampleKakao() {
   const kakaoMapRef = useRef()
   const [map, setMap] = useState(null)
+  const [markers, setMarkers] = useState(null)
+  const [info, setInfo] = useState(null)
   const { kakao } = window
   const [coords, setCoords] = useState({
     lat: 37.566498652285,
     lng: 126.99209745028,
   })
-
-  // input창에 주소 keyword 등을 검색하면, 뾰로롱 하고 해당 지도의 위치가 바뀌고, 마커등록하기
-  const inputRef = useRef()
-  const [keyWord, setKeyWord] = useState('')
-  const [markers, setMarkers] = useState()
-  const [search, setSearch] = useState(false)
-  const onClickFindGeoLocation = () => {
-    console.log(window.kakao.maps)
-
-    // console.log(geocoder)
-    // geocoder.addressSearch(inputRef.current.value, (result, status) => {
-    //   console.log(status)
-    //   if (status === kakao.maps.services.Status.OK) {
-    //     setCoords(new kakao.maps.LatLng(result[0].y, result[0].x))
-    //   }
-    // })
-  }
 
   const getUserCurrentLocation = (pos) =>
     setCoords((prev) => ({
@@ -46,6 +31,8 @@ function SampleKakao() {
 
   // 처음 kakaoMAp 생성되는 useEffect입니다.
   useEffect(() => {
+    if (map) return
+
     const kakaoMapScript = document.createElement('script')
     kakaoMapScript.async = true
     kakaoMapScript.src = `//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=${process.env.REACT_APP_KAKAO_MAP_JAVASCRIPT_KEY}&libraries=services,clusterer`
@@ -57,7 +44,7 @@ function SampleKakao() {
           center: new window.kakao.maps.LatLng(coords.lat, coords.lng),
           level: 3,
         }
-        const geocoder = new window.kakao.maps.services.Geocoder()
+
         const map = new window.kakao.maps.Map(kakaoMapRef.current, options)
         const marker = new window.kakao.maps.Marker({
           position: new window.kakao.maps.LatLng(coords.lat, coords.lng),
@@ -67,15 +54,43 @@ function SampleKakao() {
           content: '혹시 지금 위치입니까?.',
           position: new window.kakao.maps.LatLng(coords.lat, coords.lng),
         })
-
         infowindow.open(map, marker)
         setMap(map)
+        setMarkers(marker)
+        setInfo(infowindow)
       })
     }
-  }, [coords])
+  }, [map, coords])
+  // input창에 주소 keyword 등을 검색하면, 뾰로롱 하고 해당 지도의 위치가 바뀌고, 마커등록하기
+  const inputRef = useRef()
+  const [keyWord, setKeyWord] = useState('')
+
+  const [search, setSearch] = useState(false)
+  // input창에 도로,지번 주소로 검색할 수 있으므로,
+  const onClickFindGeoLocation = () => {
+    if (!inputRef.current.value || inputRef.current.value.trim() === '')
+      return alert('똑디쓰셈')
+    const geocoder = new window.kakao.maps.services.Geocoder()
+    geocoder.addressSearch(inputRef.current.value, (result, status) => {
+      //
+      if (status === 'ZERO_RESULT') return alert('찾을수가 없어요')
+      if (status === kakao.maps.services.Status.OK) {
+        setCoords(new kakao.maps.LatLng(result[0].y, result[0].x))
+        markers.setMap(null)
+        info.close()
+      }
+    })
+  }
+  console.log(coords)
   useEffect(() => {
-    if (!search) return
-  }, [search])
+    if (map === null) return
+    // 처음에는 const newMap =  kakao.maps.Map() 새롭게 생성해주려고 했었는데, 그럴 필요가 없는것 같다. 이미 처음 fetch 작업을 할 때  kakaoMapRef로 등록하고, 맵 객체를 map이라는 state에 넣어주어 검색 시 map의 Center만 바꿔주면 될거 같아서 이다.
+    map.setCenter(coords)
+
+    const marker = new kakao.maps.Marker({})
+    marker.setMap(map)
+    marker.setPosition(coords)
+  }, [coords])
   return (
     <Div>
       <form action="" onClick={(e) => e.preventDefault()}>
@@ -83,7 +98,6 @@ function SampleKakao() {
         <button onClick={onClickFindGeoLocation}>검색하기</button>
       </form>
       <div ref={kakaoMapRef} style={{ width: '400px', height: '300px' }}></div>
-      {markers?.map()}
     </Div>
   )
 }
