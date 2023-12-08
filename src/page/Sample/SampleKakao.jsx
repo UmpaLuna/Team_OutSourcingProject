@@ -48,7 +48,7 @@ function SampleKakao() {
   useEffect(() => {
     const kakaoMapScript = document.createElement('script')
     kakaoMapScript.async = true
-    kakaoMapScript.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_KAKAO_MAP_JAVASCRIPT_KEY}&autoload=false`
+    kakaoMapScript.src = `//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=${process.env.REACT_APP_KAKAO_MAP_JAVASCRIPT_KEY}&libraries=services,clusterer`
 
     document.head.appendChild(kakaoMapScript)
     kakaoMapScript.onload = () => {

@@ -1,10 +1,10 @@
+import { onAuthStateChanged, signInWithEmailAndPassword } from '@firebase/auth'
 import React, { useEffect, useState } from 'react'
-import * as St from '../styled-component/login/loginStyle'
-import { useNavigate } from 'react-router'
-import { userLogIn } from '../redux/modules/login/loginSlice'
-import { auth } from '../API/firebase/firebase.API'
-import { signInWithEmailAndPassword, onAuthStateChanged } from '@firebase/auth'
 import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router'
+import { auth } from '../API/firebase/firebase.API'
+import { userLogIn } from '../redux/modules/login/loginSlice'
+import * as St from '../styled-component/login/loginStyle'
 import SocialLogin from './SocialLogin'
 
 const Login = () => {
@@ -57,7 +57,7 @@ const Login = () => {
           })
         )
         console.log('찍히냐')
-        // navigate('/') // 로그인한 상태라면 홈 페이지로 이동
+        navigate('/') // 로그인한 상태라면 홈 페이지로 이동
         console.log(user)
       }
     })

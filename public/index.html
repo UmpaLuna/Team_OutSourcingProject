@@ -26,10 +26,15 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <!-- 카카오 맵 API -->
-    <script
+    <!-- <script
       type="text/javascript"
       src="//dapi.kakao.com/v2/maps/sdk.js?appkey=%REACT_APP_KAKAO_MAP_JAVASCRIPT_KEY%"
-      &libraries="services,clusterer"
+      &libraries="services&autoload"
+      ="false"
+    ></script> -->
+    <script
+      type="text/javascript"
+      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=$%REACT_APP_KAKAO_MAP_JAVASCRIPT_KEY%&libraries=services,clusterer"
     ></script>
     <title>React App</title>
   </head>
