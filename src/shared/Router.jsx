@@ -1,18 +1,19 @@
 import React from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import Home from '../page/Home'
 import Detail from '../page/Detail'
+import Home from '../page/Home'
 import Layout from '../page/Layout'
 import Login from '../page/Login'
-import Survey from '../page/Survey'
-import SampleNavigate from '../page/Sample/SampleNavigate'
 import Profile from '../page/Profile'
-import SampleHome from '../page/Sample/SampleHome'
-import SampleLogin from '../page/Sample/SampleLogin'
-import SampleDetail from '../page/Sample/SampleDetail'
-import SampleProfile from '../page/Sample/SampleProfile'
-import SampleKakao from '../page/Sample/SampleKakao'
 import Register from '../page/Register'
+import SampleDetail from '../page/Sample/SampleDetail'
+import SampleHome from '../page/Sample/SampleHome'
+import SampleInfinityScroll from '../page/Sample/SampleInfinityScroll'
+import SampleKakao from '../page/Sample/SampleKakao'
+import SampleLogin from '../page/Sample/SampleLogin'
+import SampleNavigate from '../page/Sample/SampleNavigate'
+import SampleProfile from '../page/Sample/SampleProfile'
+import Survey from '../page/Survey'
 
 // Page는 일단 6개이다.
 // Layout, Home, Detail,Login, Survey, Profile
@@ -40,6 +41,7 @@ function Router() {
           <Route path="profile" element={<SampleProfile />} />
           <Route path="detail/:id" element={<SampleDetail />} />
           <Route path="kakaoMap" element={<SampleKakao />} />
+          <Route path="infinityScroll" element={<SampleInfinityScroll />} />
         </Route>
       </Routes>
     </BrowserRouter>

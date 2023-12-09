@@ -11,6 +11,7 @@ function SampleNavigate() {
         <Link to="detail/:id">SampleDetail</Link>
         <Link to="profile">SampleProfile</Link>
         <Link to="kakaoMap">SampleKaKaoMap</Link>
+        <Link to="infinityScroll">Sample무한스크롤</Link>
       </StSample>
       <Outlet />
     </>
