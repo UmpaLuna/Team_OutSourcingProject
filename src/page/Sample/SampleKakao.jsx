@@ -11,6 +11,7 @@ function SampleKakao() {
     lat: null,
     lng: null,
   })
+  const selectRef = useRef()
 
   const getUserCurrentLocation = (pos) =>
     setCoords((prev) => ({
@@ -83,15 +84,14 @@ function SampleKakao() {
       return alert('검색창좀 사용하고 찾아보자')
     const geocoder = new window.kakao.maps.services.Geocoder()
     geocoder.addressSearch(inputRef.current.value, (result, status) => {
-      console.log(status)
       // console로 찍어봄 ZERO_RESULT라고 뜨더라
       if (status === 'ZERO_RESULT') return setKeyWord(inputRef.current.value)
       if (status === kakao.maps.services.Status.OK) {
+        console.log(result)
+        //region_1depth_name: "서울"
+
         setCoords(new kakao.maps.LatLng(result[0].y, result[0].x))
-        for (let i = 0; i < markers.length; i++) {
-          markers[i].setMap(null)
-          info[i].close()
-        }
+        setKeyWord(result[0].address_name)
       }
     })
   }
@@ -103,31 +103,29 @@ function SampleKakao() {
     // 기존 마커 제거 - 계속 떠있더라. 만들어진 marker 객체를 사라지게 해주는 마법임
     for (let i = 0; i < markers.length; i++) {
       markers[i].setMap(null)
+      info[i].close()
     }
     // 그리고 다시 새롭게 만들어 줘야함
 
     // 다시 그려줄 지도의 위치를 조정합니다.
     map.setCenter(coords)
 
-    const marker = new kakao.maps.Marker({})
-    const markerArray = []
-    markerArray.push(marker)
-    const infowindow = new kakao.maps.InfoWindow({
-      content: '어딜까욤',
+    const marker = new kakao.maps.Marker({
       position: coords,
     })
-    infowindow.setPosition(coords)
+
+    const infowindow = new kakao.maps.InfoWindow({
+      content: keyWord,
+      position: coords,
+    })
+    marker.setMap(map)
+    infowindow.open(map, marker)
+
+    // 나중을 위해서
+    const markerArray = []
+    markerArray.push(marker)
     const infoArray = []
     infoArray.push(infowindow)
-    for (let i = 0; i < markerArray.length; i++) {
-      markerArray[i].setMap(map)
-      markerArray[i].setPosition(coords)
-      // info.open을 map과 marker에 올리고 싶으면 marker의 position부터 정해줘야 함 아니면 뻑남 궁금하면 marker의 setPosition하는 줄과 바꿔보셈
-      infoArray[i].open(map, marker[i])
-    }
-    console.log(infoArray, markerArray)
-    for (let i = 0; i < infoArray.length; i++) {}
-
     // 만들어진  marker info는, 나중에 검색 또하면 지워주고 다시 그려줘야 하므로
     setInfo(infoArray)
     setMarkers(markerArray)
@@ -143,57 +141,83 @@ function SampleKakao() {
     if (!keyWord.replace(/^\s+|\s+$/g, ''))
       return alert('제대로 검색좀 해주세요')
     const ps = new kakao.maps.services.Places()
+    for (let i = 0; i < markers.length; i++) {
+      markers[i].setMap(null)
+      info[i].close()
+    }
+    const option = {
+      category_group_code: selectRef.current.value,
+    }
+    ps.keywordSearch(
+      keyWord,
+      (data, status) => {
+        console.log(status)
+        if (status === 'ZERO_RESULT') return alert('찾을 수 없어요')
+        // 찾은 장소들이 있다면 이전 marker와 info는 먼저 지워주고
 
-    ps.keywordSearch(keyWord, (data, status) => {
-      console.log(status)
-      if (status === 'ZERO_RESULT') return alert('찾을 수 없어요')
-      // 찾은 장소들이 있다면 이전 marker와 info는 먼저 지워주고
-      for (let i = 0; i < markers.length; i++) {
-        markers[i].setMap(null)
-        info[i].close()
-      }
-
-      const markerArray = []
-      const infoArray = []
-      const bounds = new kakao.maps.LatLngBounds()
-      const newImageSrc =
-        'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png'
-
-      for (let i = 0; i < data.length; i++) {
-        const marker = new kakao.maps.Marker({
-          map: map,
-          position: new kakao.maps.LatLng(data[i].y, data[i].x),
-          content: data[i].place_name,
+        const markerArray = []
+        const infoArray = []
+        const bounds = new kakao.maps.LatLngBounds()
+        const newImageSrc =
+          'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png'
+        console.log(data)
+        data.forEach((item, idx) => {
+          const marker = new kakao.maps.Marker({
+            map: map,
+            position: new kakao.maps.LatLng(item.y, item.x),
+            content: item.place_name,
+          })
+          const infoWindow = new kakao.maps.InfoWindow({
+            position: new kakao.maps.LatLng(item.y, item.x),
+            content: item.place_name,
+            // map: map,
+          })
+          setMakerEvent(marker)
+          markerArray.push(marker)
+          // infoArray.push(infoWindow)
+          bounds.extend(new kakao.maps.LatLng(item.y, item.x))
         })
-        const infoWindow = new kakao.maps.InfoWindow({
-          position: new kakao.maps.LatLng(data[i].y, data[i].x),
-          content: data[i].place_name,
-          map: map,
-        })
-        markerArray.push(marker)
-        infoArray.push(infoWindow)
-        bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x))
-      }
-      // marker를 만들었으니
-      map.setBounds(bounds)
-      setMarkers(markerArray)
-      setInfo(infoArray)
-    })
+
+        // marker를 만들었으니
+        map.setBounds(bounds)
+        setMarkers(markerArray)
+        setInfo(infoArray)
+      },
+      option
+    )
   }, [keyWord])
+  const test = () => {}
+  const setMakerEvent = (marker) => {
+    console.log(marker)
+    kakao.maps.event.addListener(marker, 'click', function (mouseEvent) {
+      console.log(marker.getPosition())
+      map.setCenter(marker.getPosition())
+      map.setLevel(5)
+    })
+  }
   return (
     <Div>
+      <select
+        name="category"
+        defaultValue="전체"
+        ref={selectRef}
+        onChange={test}
+        AD5
+      >
+        <option value="FD6">맛집</option>
+        <option value="AD5">숙소</option>
+        <option value="CT1">문화</option>
+        <option value="CE7">카페</option>
+      </select>
       <form action="" onClick={(e) => e.preventDefault()}>
         <input type="text" ref={inputRef} />
         <button onClick={onClickFindGeoLocation}>검색하기</button>
       </form>
-      <div ref={kakaoMapRef} style={{ width: '400px', height: '300px' }}></div>
+      <div ref={kakaoMapRef} style={{ width: '400px', height: '300px' }} />
     </Div>
   )
 }
-// if (!keyword.replace(/^\s+|\s+$/g, '')) {
-//   alert('키워드를 입력해주세요!');
-//   return false;
-// }
+
 export default SampleKakao
 
 const Div = styled.div`
