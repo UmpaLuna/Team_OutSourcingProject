@@ -13,6 +13,7 @@ import SampleKakao from '../page/Sample/SampleKakao'
 import SampleLogin from '../page/Sample/SampleLogin'
 import SampleNavigate from '../page/Sample/SampleNavigate'
 import SampleProfile from '../page/Sample/SampleProfile'
+import SampleReactQuery from '../page/Sample/SampleReactQuery'
 import Survey from '../page/Survey'
 
 // Page는 일단 6개이다.
@@ -42,6 +43,7 @@ function Router() {
           <Route path="detail/:id" element={<SampleDetail />} />
           <Route path="kakaoMap" element={<SampleKakao />} />
           <Route path="infinityScroll" element={<SampleInfinityScroll />} />
+          <Route path="reactQuery" element={<SampleReactQuery />} />
         </Route>
       </Routes>
     </BrowserRouter>

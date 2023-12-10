@@ -1,19 +1,23 @@
+import { QueryClient, QueryClientProvider } from 'react-query'
 import { Outlet } from 'react-router'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-
+const queryClient = new QueryClient()
 function SampleNavigate() {
   return (
     <>
-      <StSample>
-        <Link to="login">SampleLogin</Link>
-        <Link to="home">SampleHome</Link>
-        <Link to="detail/:id">SampleDetail</Link>
-        <Link to="profile">SampleProfile</Link>
-        <Link to="kakaoMap">SampleKaKaoMap</Link>
-        <Link to="infinityScroll">Sample무한스크롤</Link>
-      </StSample>
-      <Outlet />
+      <QueryClientProvider client={queryClient}>
+        <StSample>
+          <Link to="login">SampleLogin</Link>
+          <Link to="home">SampleHome</Link>
+          <Link to="detail/:id">SampleDetail</Link>
+          <Link to="profile">SampleProfile</Link>
+          <Link to="kakaoMap">SampleKaKaoMap</Link>
+          <Link to="infinityScroll">Sample무한스크롤</Link>
+          <Link to="reactQuery">Sample무한스크롤을 React Query로</Link>
+        </StSample>
+        <Outlet />
+      </QueryClientProvider>
     </>
   )
 }
