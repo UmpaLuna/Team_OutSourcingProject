@@ -5,11 +5,9 @@ function SampleReactQuery() {
   // react-query를 이용해서 데이터들을 일딴 계속 불러와 보자
   const [test, setTest] = useState()
   const getPostsOnFirebase = async (number) => {
-    console.log('ssssssssss')
     const q = query(
       collection(db, 'data'),
-
-      where('completed', 'array-contain', 'true')
+      where('posts', 'array-contains', { completed: true })
     )
     const querySnapshot = await getDocs(q)
     console.log(querySnapshot)
