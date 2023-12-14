@@ -9,6 +9,7 @@ import Register from '../page/Register'
 import SampleDetail from '../page/Sample/SampleDetail'
 import SampleHome from '../page/Sample/SampleHome'
 import SampleInfinityScroll from '../page/Sample/SampleInfinityScroll'
+import SampleInfinityScrollYoung from '../page/Sample/SampleInfinityScroll_young'
 import SampleKakao from '../page/Sample/SampleKakao'
 import SampleLogin from '../page/Sample/SampleLogin'
 import SampleNavigate from '../page/Sample/SampleNavigate'
@@ -44,6 +45,7 @@ function Router() {
           <Route path="kakaoMap" element={<SampleKakao />} />
           <Route path="infinityScroll" element={<SampleInfinityScroll />} />
           <Route path="reactQuery" element={<SampleReactQuery />} />
+          <Route path="tutor" element={<SampleInfinityScrollYoung />} />
         </Route>
       </Routes>
     </BrowserRouter>

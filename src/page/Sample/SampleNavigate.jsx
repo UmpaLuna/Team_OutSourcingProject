@@ -15,6 +15,7 @@ function SampleNavigate() {
           <Link to="kakaoMap">SampleKaKaoMap</Link>
           <Link to="infinityScroll">Sample무한스크롤</Link>
           <Link to="reactQuery">Sample무한스크롤을 React Query로</Link>
+          <Link to="tutor">튜터님</Link>
         </StSample>
         <Outlet />
       </QueryClientProvider>
